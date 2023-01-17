@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Template</title>
+</head>
+<style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: rgb(248, 246, 246);
+}
+/* Navbar related css */
+
+#submit {
+  width: 100%;
+  margin-top: 20px;
+  background-color: rgb(24, 64, 110);
+  color: white;
+  border: none;
+  border-radius: 15px;
+}
+/* Navbar related css */
+
+/* Form related css */
+
+input,
+select {
+  display: block;
+  margin: 15px 0px;
+  font-size: 20px;
+  padding: 2%;
+}
+option {
+  font-size: 25px;
+}
+form {
+  width: 400px;
+  border: 1px solid rgb(230, 230, 230);
+  margin: 3% auto;
+  padding: 3%;
+  background: white;
+}
+/* Form related css */
+
+#revision {
+  display: inline-block;
+}
+
+input[type="radio"] {
+  display: inline-block;
+}
+
+table,
+td,
+th {
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table {
+  border-collapse: collapse;
+  width: 70%;
+  margin: auto;
+  margin-top: 50px;
+}
+
+th,
+td {
+  padding: 15px;
+}
+
+tr > th {
+  background-color: rgb(68, 126, 192);
+  color: white;
+}
+</style>
+<body>
+    <form id="form">
+        <h1>DSA Revision App</h1>
+        <input placeholder="Enter Question title" id="title" type="text" />
+        <input placeholder="Enter OJ link" type="text" id="link" />
+        <select id="difficulty">
+          <option value="">Select Difficulty level</option>
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+    
+        <input id="submit" type="submit" value="Submit" />
+      </form>
+      <table>
+        <tbody>
+          <thead>
+            <th>Question title</th>
+            <th>Question Link</th>
+            <th>Difficulty Level</th>
+            <th>Revision required</th>
+          </thead>
+        </tbody>
+      </table>
+</body>
+</html>
+<script>
+    document.querySelector("form").addEventListener("submit", myFunc);
+    let queArr = JSON.parse(localStorage.getItem("queData"))||[];
+    displayTable(queArr);
+    // if(localStorage.getItem("queData") == null){
+    //     queArr=[];
+    // }else{
+    //   queArr == JSON.parse(localStorage.getItem("queData"));
+    // }
+    function myFunc() {
+      event.preventDefault();
+      let queObj = {
+        Ques: document.querySelector("#title").value,
+        OJ: document.querySelector("#link").value,
+        diff: document.querySelector("#difficulty").value
+      };
+      queArr.push(queObj);
+      displayTable(queArr);
+      localStorage.setItem("queData", JSON.stringify(queArr));
+    }
+    function displayTable(queArr) {
+      document.querySelector("tbody").innerHTML = "";
+      queArr.forEach(function (el) {
+        let tr = document.createElement("tr");
+        let td1 = document.createElement("td");
+        td1.innerText = el.Ques;
+        let td2 = document.createElement("td");
+        td2.innerText = el.OJ;
+        let td3 = document.createElement("td");
+        td3.innerText = el.diff;
+        let td4 = document.createElement("td");
+        if (el.diff == "Easy") {
+          td4.innerText = "No";
+        }
+        else {
+          td4.innerText = "Yes";
+        }
+        tr.append(td1, td2, td3, td4);
+        document.querySelector("tbody").append(tr);
+      });
+    } 
+  </script>
+  
